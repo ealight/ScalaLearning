@@ -1,32 +1,39 @@
 package study.softserve.scala
 
-import akka.actor.Props
+import akka.actor.{ActorRef, Props}
 import akka.pattern.ask
+import akka.routing.RoundRobinPool
 import akka.util.Timeout
 import study.softserve.scala.JSONParser.CityWeather
 
-import scala.concurrent.Await
+import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
+import scala.language.{implicitConversions, postfixOps}
 
 object Application {
 
-  import system.dispatcher
-
   def main(args: Array[String]): Unit = {
     implicit val timeout: Timeout = Timeout(apiResponseTimeout seconds)
+    implicit val contx: ExecutionContextExecutor = system.dispatcher
 
-    val creator = system.actorOf(Props[RequestDispatcher], "RequestDispatcher")
-
+    val actors: ActorRef = system.actorOf(RoundRobinPool(cities.size).props(Props[RequestActor]), "ActorPool")
 
     system.scheduler.schedule(0 millis, schedulerTimeout minute) {
       println("--------------------------------------------------")
-      val weatherContainer = for (city <- cities) yield {
-        val result = Await.result(creator ? city, timeout.duration)
-        result.asInstanceOf[CityWeather]
+      val futures = for (city <- cities) yield actors ? city
+
+      system.scheduler.scheduleOnce(apiResponseTimeout seconds) {
+        val cont = futures
+          .flatMap(future =>
+            future
+              .mapTo[CityWeather]
+              .value
+              .map(x => x.get))
+
+        val sorted = cont.sortBy(_.main.temp)
+
+        sorted.foreach(println)
       }
-      val sortedWeather = weatherContainer.sortBy(_.main.temp)
-      sortedWeather.foreach(println)
     }
 
   }

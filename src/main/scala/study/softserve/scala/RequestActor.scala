@@ -8,7 +8,6 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import study.softserve.scala.JSONParser.CityWeather
 
-import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
@@ -17,6 +16,7 @@ class RequestActor extends Actor {
   import system.dispatcher
 
   implicit val timeout: Timeout = Timeout(apiResponseTimeout seconds)
+
 
   def receive: Receive = {
     case request => {
@@ -28,14 +28,15 @@ class RequestActor extends Actor {
         )
       )
 
-      val future = responseFuture
+      val sen = sender()
+
+      responseFuture
         .flatMap(_.entity.toStrict(2 seconds))
         .map(_.data.utf8String)
         .map(response => parse(response)
           .camelizeKeys
           .extract[CityWeather])
-
-      sender() ! Await.result(future, timeout.duration)
+        .onComplete(response => sen ! response.get)
     }
   }
 }
