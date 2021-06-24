@@ -23,14 +23,14 @@ object Application {
       val futures = for (city <- cities) yield actors ? city
 
       system.scheduler.scheduleOnce(apiResponseTimeout seconds) {
-        val cont = futures
+        val futuresResult = futures
           .flatMap(future =>
             future
               .mapTo[CityWeather]
               .value
               .map(x => x.get))
 
-        val sorted = cont.sortBy(_.main.temp)
+        val sorted = futuresResult.sorted
 
         sorted.foreach(println)
       }

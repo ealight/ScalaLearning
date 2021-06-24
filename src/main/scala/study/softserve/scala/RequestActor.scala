@@ -3,6 +3,7 @@ package study.softserve.scala
 import akka.actor.Actor
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest}
+import akka.pattern.pipe
 import akka.util.Timeout
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -36,7 +37,7 @@ class RequestActor extends Actor {
         .map(response => parse(response)
           .camelizeKeys
           .extract[CityWeather])
-        .onComplete(response => sen ! response.get)
+        .pipeTo(sen)
     }
   }
 }
