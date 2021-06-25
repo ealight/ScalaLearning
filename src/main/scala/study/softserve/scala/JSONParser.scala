@@ -26,9 +26,14 @@ object JSONParser {
     }
   }
 
-  case class CityWeather(name: String, dt: Long, main: Main, weather: List[Weather], clouds: Clouds, sys: Sys, timezone: Int) {
+  case class CityWeather(name: String, dt: Long, main: Main, weather: List[Weather], clouds: Clouds, sys: Sys, timezone: Int)
+    extends Ordered[CityWeather] {
     override def toString: String = {
       s"(name=$name, date=$dt, main=$main, weather=$weather, clouds=$clouds, system=$sys, timezone=$timezone)"
+    }
+
+    override def compare(that: CityWeather): Int = {
+      (this.main.temp - that.main.temp).toInt
     }
   }
 
