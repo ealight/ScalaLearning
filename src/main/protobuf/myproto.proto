@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+message CityWeather {
+  string name = 1;
+  int64 dt = 2;
+  string email = 3;
+  Main main = 4;
+  repeated Weather weathers = 5;
+  Clouds clouds = 6;
+  Sys sys = 7;
+  int32 timezone = 8;
+}
+
+message Main {
+  double temp = 1;
+  double feelsLike = 2;
+  double tempMin = 3;
+  double tempMax = 4;
+}
+
+message Weather {
+  string main = 1;
+  string description = 2;
+}
+
+message Clouds {
+  int32 all = 1;
+}
+
+message Sys {
+  string country = 1;
+  int64 sunrise = 2;
+  int64 sunset = 3;
+}
