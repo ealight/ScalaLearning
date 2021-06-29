@@ -1,12 +1,10 @@
 package study.softserve
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import org.json4s.DefaultFormats
 
 package object scala {
   implicit val system: ActorSystem = ActorSystem("Actor")
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val formats: DefaultFormats.type = DefaultFormats
 
   val openWeatherApiKey: String = "932990025e60573ec55fb150d6ae8368"
