@@ -1,14 +1,16 @@
 syntax = "proto3";
 
+package com.myprotos;
+
+
 message CityWeather {
   string name = 1;
   int64 dt = 2;
-  string email = 3;
-  Main main = 4;
-  repeated Weather weathers = 5;
-  Clouds clouds = 6;
-  Sys sys = 7;
-  int32 timezone = 8;
+  Main main = 3;
+  repeated Weather weather = 4;
+  Clouds clouds = 5;
+  Sys sys = 6;
+  int32 timezone = 7;
 }
 
 message Main {
