@@ -1,23 +1,21 @@
-name := "atm-ws"
+
+name := "WeatherReader"
+
+version := "0.1"
+
 scalaVersion := "2.12.12"
 
-val akkaVersion = "2.5.26"
-val akkaHttpVersion = "10.1.11"
-val testVersion = "3.2.9"
 
-Compile / PB.targets := Seq(
-  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
-)
+val akkaVersion = "2.6.14"
+val json4sVersion = "4.0.0"
+
+enablePlugins(JavaAppPackaging)
+enablePlugins(AkkaGrpcPlugin)
 
 libraryDependencies ++= Seq(
-  "com.thesamet.scalapb" %% "scalapb-json4s" % "0.11.0",
-  "org.scalactic" %% "scalactic" % testVersion,
-  "org.scalatest" %% "scalatest" % testVersion % "test",
-  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-  "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-  "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
-  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
   "com.lightbend.akka" %% "akka-projection-kafka" % "1.2.1",
+  "com.typesafe.akka" %% "akka-discovery" % akkaVersion,
+  "org.json4s" %% "json4s-jackson" % json4sVersion,
+  "ch.qos.logback" % "logback-classic" % "1.1.3"
 )
 
