@@ -1,0 +1,3 @@
+[submodule "WeatherProtos"]
+	path = WeatherProtos
+	url = https://github.com/ealight/WeatherProtos.git

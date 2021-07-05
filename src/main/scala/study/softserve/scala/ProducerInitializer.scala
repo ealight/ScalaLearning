@@ -4,7 +4,7 @@ import akka.kafka.ProducerSettings
 import akka.kafka.scaladsl.SendProducer
 import org.apache.kafka.clients.producer.{ProducerRecord, RecordMetadata}
 import org.apache.kafka.common.serialization.{ByteArraySerializer, StringSerializer}
-import weather.CityWeather
+import weather.WeatherReply
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
@@ -14,7 +14,7 @@ object ProducerInitializer {
     ProducerSettings(producerConfig, new StringSerializer, new ByteArraySerializer)
   }
 
-  def send(producer: SendProducer[String, Array[Byte]], result: CityWeather): Unit = {
+  def send(producer: SendProducer[String, Array[Byte]], result: WeatherReply): Unit = {
     implicit val ec: ExecutionContextExecutor = system.dispatcher
 
     val kafkaConfig = config.getConfig("application.akka.kafka")

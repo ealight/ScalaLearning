@@ -1,4 +1,3 @@
-
 name := "WeatherReader"
 
 version := "0.1"
@@ -11,6 +10,10 @@ val json4sVersion = "4.0.0"
 
 enablePlugins(JavaAppPackaging)
 enablePlugins(AkkaGrpcPlugin)
+
+inConfig(Compile)(Seq(
+  PB.protoSources += baseDirectory.value /  "WeatherProtos"
+))
 
 libraryDependencies ++= Seq(
   "com.lightbend.akka" %% "akka-projection-kafka" % "1.2.1",
