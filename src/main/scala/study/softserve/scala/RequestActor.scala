@@ -5,8 +5,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest}
 import akka.pattern.pipe
 import akka.util.Timeout
-import weather.CityWeather
 import org.json4s.jackson.JsonMethods
+import weather.WeatherReply
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.DurationInt
@@ -33,7 +33,7 @@ class RequestActor extends Actor {
         .map(_.data.utf8String)
         .map(response => JsonMethods.parse(response)
           .camelizeKeys
-          .extract[CityWeather])
+          .extract[WeatherReply])
         .pipeTo(sender())
   }
 }

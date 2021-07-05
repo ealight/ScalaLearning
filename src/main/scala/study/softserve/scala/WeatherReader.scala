@@ -5,7 +5,7 @@ import akka.kafka.scaladsl.SendProducer
 import akka.pattern.ask
 import akka.routing.RoundRobinPool
 import akka.util.Timeout
-import weather.CityWeather
+import weather.WeatherReply
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.DurationInt
@@ -30,7 +30,7 @@ class WeatherReader(producer: SendProducer[String, Array[Byte]]) {
 
       futures.foreach(future => {
         future
-          .mapTo[CityWeather]
+          .mapTo[WeatherReply]
           .onComplete(result => ProducerInitializer.send(producer, result.get))
       })
     }

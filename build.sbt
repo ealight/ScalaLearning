@@ -5,7 +5,6 @@ version := "0.1"
 
 scalaVersion := "2.12.12"
 
-
 val akkaVersion = "2.6.14"
 val json4sVersion = "4.0.0"
 
@@ -18,4 +17,3 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "ch.qos.logback" % "logback-classic" % "1.1.3"
 )
-
