@@ -12,7 +12,7 @@ enablePlugins(JavaAppPackaging)
 enablePlugins(AkkaGrpcPlugin)
 
 inConfig(Compile)(Seq(
-  PB.protoSources += baseDirectory.value /  "WeatherProtos"
+  PB.protoSources += baseDirectory.value /  "protobufs"
 ))
 
 libraryDependencies ++= Seq(
