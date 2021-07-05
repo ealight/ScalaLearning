@@ -1,6 +1,0 @@
-[submodule "WeatherProtos"]
-	path = WeatherProtos
-	url = https://github.com/ealight/WeatherProtos.git
-[submodule "protobufs"]
-	path = protobufs
-	url = https://github.com/ealight/WeatherProtos.git
